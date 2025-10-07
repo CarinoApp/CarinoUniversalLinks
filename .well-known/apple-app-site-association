@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "TCBXDWFNX2.kovomie.toCareFor",
+        "paths": ["*"]
+      }
+    ]
+  }
+}
