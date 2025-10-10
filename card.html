@@ -111,18 +111,15 @@
     </div>
 
     <script>
-        // Try to open the app
+        // Extract shareId from URL path
+        // URL format: https://tocarefor.vercel.app/c/ABC123XY
         window.onload = function() {
-            const params = new URLSearchParams(window.location.search);
-            const title = params.get('title');
-            const front = params.get('front');
-            const message = params.get('message') || '';
-            const drawingData = params.get('drawingData') || '';
+            const pathParts = window.location.pathname.split('/');
+            const shareId = pathParts[pathParts.length - 1]; // Get last part of path
 
-            if (title && front) {
-                // Build the deep link URL
-                const appURL = `toCareFor://open?title=${encodeURIComponent(title)}&front=${encodeURIComponent(front)}&message=${encodeURIComponent(message)}&dra
-wingData=${encodeURIComponent(drawingData)}`;
+            if (shareId && shareId.length > 0 && shareId !== 'c') {
+                // Build the deep link URL with shareId
+                const appURL = `toCareFor://c/${shareId}`;
 
                 // Try to open the app
                 window.location.href = appURL;
@@ -133,8 +130,12 @@ wingData=${encodeURIComponent(drawingData)}`;
                     document.getElementById('fallback').classList.remove('hidden');
                 }, 2500);
             } else {
-                // No card data, show error
+                // No shareId found, show error
                 document.getElementById('loading').innerHTML = '<p>Invalid card link</p>';
+                setTimeout(function() {
+                    document.getElementById('loading').classList.add('hidden');
+                    document.getElementById('fallback').classList.remove('hidden');
+                }, 1500);
             }
         };
 
